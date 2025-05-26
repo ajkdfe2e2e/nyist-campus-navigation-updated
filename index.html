@@ -21,13 +21,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" data-campus="all">全部校区</a>
+                        <a class="nav-link active" data-campus="all" href="#">全部校区</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-campus="west-north">西北校区</a>
+                        <a class="nav-link" data-campus="west-north" href="#">西北校区(北校区)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-campus="east-south">东南校区</a>
+                        <a class="nav-link" data-campus="east-south" href="#">东南校区(东校区)</a>
                     </li>
                 </ul>
             </div>
@@ -35,120 +35,137 @@
     </nav>
 
     <!-- 主要内容 -->
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         <div class="row">
-            <!-- 左侧面板 -->
-            <div class="col-md-3 p-3 sidebar">
-                <h4>地点查询</h4>
-                <div class="input-group mb-3">
-                    <input type="text" id="search-input" class="form-control" placeholder="搜索地点...">
-                    <button class="btn btn-outline-secondary" type="button" id="search-button">查找</button>
-                </div>
-                
-                <h5>地点分类</h5>
-                <div class="list-group mb-3">
-                    <button type="button" class="list-group-item list-group-item-action active" data-category="all">全部地点</button>
-                    <button type="button" class="list-group-item list-group-item-action" data-category="教学楼">教学楼</button>
-                    <button type="button" class="list-group-item list-group-item-action" data-category="宿舍">宿舍</button>
-                    <button type="button" class="list-group-item list-group-item-action" data-category="餐饮">食堂餐厅</button>
-                    <button type="button" class="list-group-item list-group-item-action" data-category="学习场所">学习场所</button>
-                    <button type="button" class="list-group-item list-group-item-action" data-category="运动场所">运动场所</button>
-                    <button type="button" class="list-group-item list-group-item-action" data-category="出入口">出入口</button>
-                    <button type="button" class="list-group-item list-group-item-action" data-category="生活服务">生活服务</button>
-                </div>
-                
-                <h5>地点列表</h5>
-                <div class="list-group location-list" id="location-list">
-                    <!-- 地点列表将通过JavaScript动态生成 -->
+            <!-- 左侧边栏 -->
+            <div class="col-md-3">
+                <div class="sidebar p-3">
+                    <!-- 搜索 -->
+                    <div class="input-group mb-3">
+                        <input type="text" id="search-input" class="form-control" placeholder="搜索地点">
+                        <button id="search-button" class="btn btn-outline-primary" type="button">搜索</button>
+                    </div>
+                    
+                    <!-- 分类筛选 -->
+                    <div class="mb-3">
+                        <h5>分类筛选</h5>
+                        <div class="list-group">
+                            <button class="list-group-item list-group-item-action active" data-category="all">全部</button>
+                            <button class="list-group-item list-group-item-action" data-category="教学楼">教学楼</button>
+                            <button class="list-group-item list-group-item-action" data-category="宿舍">宿舍</button>
+                            <button class="list-group-item list-group-item-action" data-category="餐饮">餐饮</button>
+                            <button class="list-group-item list-group-item-action" data-category="学习场所">学习场所</button>
+                            <button class="list-group-item list-group-item-action" data-category="运动场所">运动场所</button>
+                            <button class="list-group-item list-group-item-action" data-category="出入口">出入口</button>
+                            <button class="list-group-item list-group-item-action" data-category="行政">行政</button>
+                            <button class="list-group-item list-group-item-action" data-category="医疗">医疗</button>
+                            <button class="list-group-item list-group-item-action" data-category="生活服务">生活服务</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 地点列表 -->
+                    <div class="mb-3">
+                        <h5>地点列表</h5>
+                        <div id="location-list" class="list-group location-list">
+                            <!-- 地点列表将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <!-- 中间地图区域 -->
-            <div class="col-md-6 p-0" id="map-container">
-                <div class="map-toolbar p-2">
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-outline-secondary" id="zoom-in">
-                            <i class="bi bi-zoom-in"></i> 放大
+            <div class="col-md-6">
+                <div id="map-container">
+                    <div class="map-toolbar">
+                        <button id="zoom-in" class="btn btn-sm btn-light" title="放大">
+                            <i class="bi bi-plus-lg"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" id="zoom-out">
-                            <i class="bi bi-zoom-out"></i> 缩小
+                        <button id="zoom-out" class="btn btn-sm btn-light" title="缩小">
+                            <i class="bi bi-dash-lg"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" id="reset-view">
-                            <i class="bi bi-arrows-fullscreen"></i> 重置
+                        <button id="reset-view" class="btn btn-sm btn-light" title="重置视图">
+                            <i class="bi bi-arrows-fullscreen"></i>
                         </button>
                     </div>
-                </div>
-                <div id="campus-map">
-                    <!-- SVG地图将通过JavaScript动态生成 -->
+                    <div id="campus-map"></div>
                 </div>
             </div>
             
-            <!-- 右侧面板 -->
-            <div class="col-md-3 p-3 sidebar">
-                <h4>路径查询</h4>
-                <form id="path-form">
-                    <div class="mb-3">
-                        <label for="start-location" class="form-label">起点</label>
-                        <select class="form-select" id="start-location" required>
-                            <option value="" selected disabled>请选择起点...</option>
-                            <!-- 选项将通过JavaScript动态生成 -->
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="end-location" class="form-label">终点</label>
-                        <select class="form-select" id="end-location" required>
-                            <option value="" selected disabled>请选择终点...</option>
-                            <!-- 选项将通过JavaScript动态生成 -->
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">查询方式</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="path-type" id="shortest-distance" value="distance" checked>
-                            <label class="form-check-label" for="shortest-distance">
-                                最短距离
-                            </label>
+            <!-- 右侧路径查询区域 -->
+            <div class="col-md-3">
+                <div class="sidebar p-3">
+                    <h5>路径查询</h5>
+                    <form id="path-form">
+                        <div class="mb-3">
+                            <label for="start-location" class="form-label">起点：</label>
+                            <select id="start-location" class="form-select" required>
+                                <option value="">请选择起点</option>
+                                <!-- 选项将通过JavaScript动态生成 -->
+                            </select>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="path-type" id="shortest-time" value="time">
-                            <label class="form-check-label" for="shortest-time">
-                                最短时间
-                            </label>
+                        <div class="mb-3">
+                            <label for="end-location" class="form-label">终点：</label>
+                            <select id="end-location" class="form-select" required>
+                                <option value="">请选择终点</option>
+                                <!-- 选项将通过JavaScript动态生成 -->
+                            </select>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">查询路径</button>
-                </form>
-                
-                <div id="path-results" class="mt-4 d-none">
-                    <h5>查询结果</h5>
-                    <div class="card">
-                        <div class="card-body">
-                            <p><strong>总距离:</strong> <span id="total-distance">0</span> 米</p>
-                            <p><strong>预计时间:</strong> <span id="total-time">0</span> 分钟</p>
-                            <h6>路径详情:</h6>
-                            <ol id="path-details">
-                                <!-- 路径详情将通过JavaScript动态生成 -->
-                            </ol>
+                        <div class="mb-3">
+                            <label class="form-label">路径类型：</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="path-type" id="shortest-distance" value="distance" checked>
+                                <label class="form-check-label" for="shortest-distance">
+                                    最短距离
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="path-type" id="shortest-time" value="time">
+                                <label class="form-check-label" for="shortest-time">
+                                    最短时间
+                                </label>
+                            </div>
                         </div>
+                        <button type="submit" class="btn btn-primary">查询路径</button>
+                    </form>
+                    
+                    <!-- 路径结果 -->
+                    <div id="path-results" class="mt-4 d-none">
+                        <h5>路径结果</h5>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p class="mb-1">总距离：<span id="total-distance">0</span> 米</p>
+                                <p class="mb-0">步行时间：约 <span id="total-time">0</span> 分钟</p>
+                            </div>
+                        </div>
+                        <h6>详细路径：</h6>
+                        <ol id="path-details" class="list-group list-group-numbered">
+                            <!-- 路径详情将通过JavaScript动态生成 -->
+                        </ol>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- 底部信息 -->
-    <footer class="bg-light py-3">
-        <div class="container text-center">
-            <p class="mb-0">南阳理工学院校园导航系统 - 数据结构课程设计</p>
-            <p class="mb-0">©2025 作者：杨博文（2415929683）- 完成日期：2025.5.20</p>
+    
+    <!-- 页脚 -->
+    <footer class="mt-5 py-3 bg-light">
+        <div class="container">
+            <p class="text-center text-muted mb-0">南阳理工学院校园导航系统 &copy; 2025 杨博文</p>
         </div>
     </footer>
-
-    <!-- JavaScript 文件 -->
+    
+    <!-- 脚本 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="campusData.js"></script>
     <script src="pathFinding.js"></script>
     <script src="mapView.js"></script>
     <script src="script.js"></script>
+    
+    <!-- 管理员模式脚本 -->
+    <script src="adminStyles.css"></script>
+    <script src="adminScript.js"></script>
+    <script src="adminScript-part2.js"></script>
+    <script src="adminScript-part3.js"></script>
+    <script src="adminScript-part4.js"></script>
 </body>
 </html>
